@@ -17,6 +17,12 @@ const productRoutes = require("./routes/product");
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
+// app.use((req,res,next) => {
+// 	console.log("passed this")
+// 	res.header("Access-Control-Allow-Origin","*");
+// 	// res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+// 	next()
+// })
 
 //--------------------------------------------->ROUTS
 
@@ -27,7 +33,8 @@ app.use("/api", productRoutes); //->All Products Routes
 
 
 //-------------------------------------------->DATABASE-CONNECTION
-db.connect(process.env.DB_URL, {
+let dbUrl = "mongodb+srv://user1:6ga0MGd4j694SkPe@beta.sg0ta.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+db.connect(process.env.DB_URL || dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true

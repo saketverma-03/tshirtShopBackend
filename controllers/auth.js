@@ -5,10 +5,12 @@ const ejwt = require("express-jwt");
 
 // signup route
 exports.signup = (req ,res) => {  
-
+    console.log("i was called")
     const errors = validationResult(req); // this validates whether user entere email is of valid type or not
+
     if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    console.log(req.body)
+    return res.status(400).json({ error: errors.array() });
     }
 
     const user = new User(req.body)
@@ -30,23 +32,23 @@ exports.signin = (req ,res) => {
     const {email ,password} = req.body;     //destructuring the request body
     const errors = validationResult(req);   //--> For validation of that email entered by a user is an email type
     if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array()[0] });
+    return res.status(400).json({ error: errors.array()[0] });
     }
 
     // findin user with the email
     User.findOne({email} , (error , user) => {
         if(error){
-             res.status(400).json({ message : "Email is Not rugistered"})
+             res.status(400).json({ error : "Email is Not rugistered"})
         }
         if(!user){
-            return res.status(400).json({ messaage : "user with the email does not exist"})
+            return res.status(400).json({ error : "user with the email does not exist"})
         }
         if(!user.authanticate(password)){
            return res.status(401).json({ error : "Email and Password do not match"})
         }
 
         // Create Token
-        const token = jwt.sign({_id : user._id} , process.env.SECREAT)
+        const token = jwt.sign({_id : user._id} , process.env.SECREAT || "saket")
         // send cookie
         res.cookie("token" ,token ,{ expire: new Date() + 9999 })
 
@@ -70,7 +72,7 @@ exports.signout = (req ,res ) => {
 
 //portected routes
 exports.isSignedIn = ejwt({
-    secret : process.env.SECREAT,
+    secret : process.env.SECREAT || "saket",
     userProperty :"auth",
     algorithms : ["HS256"]
 })

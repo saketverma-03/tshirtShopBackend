@@ -14,7 +14,7 @@ route.post("/category/create/:userId", isSignedIn, isAuthanticated, isAdmin, cre
 
 //read-route
 route.get("/category/:categoryId", getCategory);
-route.get("/category/allCategory", getAllCategory)
+route.get("/categorys", getAllCategory)
 
 //update-route
 route.put("category/:category/:userId", isSignedIn, isAuthanticated, isAdmin, updateCategory)
