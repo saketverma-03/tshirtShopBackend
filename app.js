@@ -33,7 +33,7 @@ app.use("/api", productRoutes); //->All Products Routes
 
 
 //-------------------------------------------->DATABASE-CONNECTION
-let dbUrl = "mongodb+srv://user1:6ga0MGd4j694SkPe@beta.sg0ta.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+let dbUrl = ""
 db.connect(process.env.DB_URL || dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
